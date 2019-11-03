@@ -24,7 +24,7 @@ namespace JRSpider
             var directory = CreateDirectory(savePath, title);
 
             Console.WriteLine("Start download image: " + title);
-            for (int i = 0; i < count; i++)
+            for (int i = 1; i <= count; i++)
             {
                 string currentWebUrl;
                 if (i == 1)
@@ -39,7 +39,7 @@ namespace JRSpider
                 try
                 {
                     SetHeader(webHeaderCollection);
-                    DownloadSourceHtml(webClient, pageUrl, ref title, ref imageUrl, ref count);
+                    DownloadSourceHtml(webClient, currentWebUrl, ref title, ref imageUrl, ref count);
                     webHeaderCollection.Set(HttpRequestHeader.Referer, imageUrl);
                     webClient.DownloadFile(imageUrl, directory + "\\" + i + ".jpg");
                     Thread.Sleep(random.Next(800, 1200));
@@ -66,7 +66,7 @@ namespace JRSpider
         }
         private static string CreateDirectory(string savePath, string title)
         {
-            var directory = string.Concat(savePath, "\\", title);
+            var directory = Path.Combine(savePath, title);
             if (!Directory.Exists(directory))
             {
                 Directory.CreateDirectory(directory);
